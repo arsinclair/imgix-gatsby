@@ -1,0 +1,26 @@
+name: "Release"
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: npm
+          registry-url: https://registry.npmjs.org
+      
+      - name: Install
+        run: yarn
+    
+      - name: Build
+        run: yarn build
+
+      - run: npx semantic-release
